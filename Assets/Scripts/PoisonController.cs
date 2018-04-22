@@ -1,0 +1,23 @@
+﻿using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class PoisonController : MonoBehaviour
+{
+    void OnTriggerEnter2D(Collider2D collider)
+    {
+        if (collider.CompareTag(GameTags.Player))
+        {
+            var gameController = GameObject.FindObjectOfType<GameController>();
+            gameController.ResetToSpawn();
+
+            AudioManager.Play(GameAudioClip.Hurt);
+        }
+        else if(collider.CompareTag(GameTags.Enemy))
+        {
+            Destroy(collider.gameObject);
+
+            AudioManager.Play(GameAudioClip.Hurt2);
+        }
+    }
+}

@@ -5,91 +5,73 @@ public class CameraController2D : MonoBehaviour
     public CharacterController2D target;
     public Vector2 focusAreaSize;
 
-    public bool followTargetX = true, followTargetY;
+    public float verticalOffset = 1.0f;
+    public float verticalSmoothTime = 0.1f;
+    public float lookAheadDistanceX = 2.0f;
+    public float lookAheadSmoothTimeX = 0.5f;
 
     private FocusArea _focusArea;
-    private float _cameraWidth;
-    private float _cameraHeight;
 
-    private Vector2 _targetPosition;
-    private Vector2 _dampVelocity;
-    private bool _changing;
+    private float currentLookAheadX;
+    private float targetLookAheadX;
+    private float lookAheadDirX;
+    private float lookAheadSmoothVelocityX;
+    private float verticalSmoothVelocity;
+    private bool lookAheadStopped;
+
+    private Vector2 _cameraSize;
 
     void Start()
     {
         var collider = target.GetComponent<BoxCollider2D>();
         _focusArea = new FocusArea(collider.bounds, focusAreaSize);
 
-        var camera = Camera.main;
-        _cameraHeight = camera.orthographicSize * 2;
-        _cameraWidth = _cameraHeight * camera.aspect;
-
-        _targetPosition = transform.position;
+        _cameraSize.y = Camera.main.orthographicSize * 2;
+        _cameraSize.x = _cameraSize.y * 16.0f / 9.0f;
     }
 
     void LateUpdate()
     {
-        var position = (Vector2)transform.position;
+        var playerCollider = target.GetComponent<BoxCollider2D>();
+        _focusArea.Update(playerCollider.bounds);
 
-        var collider = target.GetComponent<BoxCollider2D>();
-        _focusArea.Update(collider.bounds);
-
-        if (!_changing)
+        if (_focusArea.velocity.x != 0)
         {
-            var targetPosition = target.transform.position;
-            
-            if (targetPosition.x >= position.x + _cameraWidth * 0.5f)
+            lookAheadDirX = Mathf.Sign(_focusArea.velocity.x);
+            if (target._playerInput.x != 0 && Mathf.Sign(target._playerInput.x) == Mathf.Sign(_focusArea.velocity.x))
             {
-                _targetPosition.x = position.x + _cameraWidth + 0.68f;
-                target.Move(new Vector2(0.68f, 0.0f));
-                _changing = true;
+                targetLookAheadX = lookAheadDirX * lookAheadDistanceX;
+                lookAheadStopped = false;
             }
-            else if (targetPosition.x <= position.x - _cameraWidth * 0.5f)
+            else if (!lookAheadStopped)
             {
-                _targetPosition.x = position.x - _cameraWidth - 0.68f;
-                target.Move(new Vector2(-0.68f, 0.0f));
-                _changing = true;
-            }
-            else if (targetPosition.y >= position.y + _cameraHeight * 0.5f)
-            {
-                _targetPosition.y = position.y + _cameraHeight;
-                _changing = true;
-            }
-            else if (targetPosition.y <= position.y - _cameraHeight * 0.5f)
-            {
-                _targetPosition.y = position.y - _cameraHeight;
-                _changing = true;
-            }
-
-            if (followTargetX)
-            {
-                _targetPosition.x = _focusArea.center.x;
-                _changing = true;
-            }
-
-            if (followTargetY)
-            {
-                _targetPosition.y = _focusArea.center.y;
-                _changing = true;
+                targetLookAheadX = currentLookAheadX + (lookAheadDirX * lookAheadDistanceX - currentLookAheadX) * 0.25f;
+                lookAheadStopped = true;
             }
         }
 
-        if (_changing)
-        {
-            position = Vector2.SmoothDamp(position, _targetPosition, ref _dampVelocity, 0.1f, 30.0f, Time.deltaTime);
-            transform.position = (Vector3)position + Vector3.forward * -10;
+        currentLookAheadX = Mathf.SmoothDamp(currentLookAheadX, targetLookAheadX, ref lookAheadSmoothVelocityX, lookAheadSmoothTimeX);
 
-            if (Vector2.Distance(position, _targetPosition) <= Vector2.kEpsilon)
-            {
-                _changing = false;
-            }
+        var focusPosition = _focusArea.center + Vector2.up * verticalOffset;
+        focusPosition.x += currentLookAheadX;
+        focusPosition.y = Mathf.SmoothDamp(transform.position.y, focusPosition.y, ref verticalSmoothVelocity, verticalSmoothTime);
+
+        var boundary = GameObject.FindGameObjectWithTag("Boundary");
+        if (boundary)
+        {
+            var boundaryCollider = boundary.GetComponent<BoxCollider2D>();
+            focusPosition.x = Mathf.Clamp(focusPosition.x, boundaryCollider.bounds.min.x + _cameraSize.x * 0.5f, boundaryCollider.bounds.max.x - _cameraSize.x * 0.5f);
+            focusPosition.y = Mathf.Clamp(focusPosition.y, boundaryCollider.bounds.min.y + _cameraSize.y * 0.5f, boundaryCollider.bounds.max.y - _cameraSize.y * 0.5f);
         }
+
+        transform.position = (Vector3)focusPosition + Vector3.forward * -10;
     }
 
     void OnDrawGizmos()
     {
         Gizmos.color = new Color(1.0f, 0.0f, 0.0f, 0.5f);
         Gizmos.DrawCube(_focusArea.center, focusAreaSize);
+        Gizmos.DrawSphere((Vector3)_focusArea.center + Vector3.right * lookAheadDistanceX * target._facingDirection, 0.2f);
     }
 
     struct FocusArea

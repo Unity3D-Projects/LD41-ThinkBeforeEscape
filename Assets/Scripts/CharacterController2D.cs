@@ -4,8 +4,6 @@ using UnityEngine;
 [RequireComponent(typeof(BoxCollider2D))]
 public class CharacterController2D : RaycastController2D
 {
-    public const string ThroughTag = "Through";
-
     public CollisionInfo collisions;
 
     public float maxSlopeAngle = 60.0f;
@@ -119,7 +117,7 @@ public class CharacterController2D : RaycastController2D
             var hit = Physics2D.Raycast(rayOrigin, Vector2.up * directionY, rayLength, collisionMask);
             if (hit)
             {
-                if (hit.transform.CompareTag(ThroughTag))
+                if (hit.transform.CompareTag(GameTags.Through))
                 {
                     if (directionY == 1 || hit.distance == 0)
                     {

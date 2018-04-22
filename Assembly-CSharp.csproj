@@ -51,13 +51,22 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+     <Compile Include="Assets\Scripts\AudioManager.cs" />
+     <Compile Include="Assets\Scripts\BoundaryController.cs" />
      <Compile Include="Assets\Scripts\CameraController2D.cs" />
      <Compile Include="Assets\Scripts\CharacterController2D.cs" />
+     <Compile Include="Assets\Scripts\ChasingGoombaController.cs" />
      <Compile Include="Assets\Scripts\DebugEx.cs" />
+     <Compile Include="Assets\Scripts\EnemyController.cs" />
+     <Compile Include="Assets\Scripts\FlyingDudeController.cs" />
      <Compile Include="Assets\Scripts\GameController.cs" />
+     <Compile Include="Assets\Scripts\GoombaController.cs" />
      <Compile Include="Assets\Scripts\PlatformController.cs" />
      <Compile Include="Assets\Scripts\PlayerController2D.cs" />
+     <Compile Include="Assets\Scripts\PlayerSpawnController.cs" />
+     <Compile Include="Assets\Scripts\PoisonController.cs" />
      <Compile Include="Assets\Scripts\RaycastController2D.cs" />
+     <Compile Include="Assets\Scripts\SpikeController.cs" />
  <Reference Include="UnityEngine.UI">
  <HintPath>C:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>
  </Reference>

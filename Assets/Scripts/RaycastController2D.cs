@@ -11,7 +11,7 @@ public class RaycastController2D : MonoBehaviour
     public LayerMask collisionMask;
 
     protected BoxCollider2D _collider;
-    protected RaycastOrigins _raycastOrigins;
+    internal RaycastOrigins _raycastOrigins;
 
     protected int _horizontaRayCount;
     protected int _verticalRayCount;
@@ -49,7 +49,7 @@ public class RaycastController2D : MonoBehaviour
         _raycastOrigins.bottomRight = new Vector2(bounds.max.x, bounds.min.y);
     }
 
-    protected struct RaycastOrigins
+    public struct RaycastOrigins
     {
         public Vector2 topLeft, topRight;
         public Vector2 bottomLeft, bottomRight;

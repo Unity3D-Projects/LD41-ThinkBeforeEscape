@@ -7,6 +7,7 @@ using UnityEngine.UI;
 public class PlayerController2D : MonoBehaviour
 {
     private CharacterController2D _controller;
+    private SpriteRenderer _spriteRenderer;
     private Animator _animator;
 
     public float speed = 6.0f;
@@ -27,6 +28,7 @@ public class PlayerController2D : MonoBehaviour
     void Awake()
     {
         _controller = GetComponent<CharacterController2D>();
+        _spriteRenderer = GetComponentInChildren<SpriteRenderer>();
         _animator = GetComponent<Animator>();
 
         _gravity = (-2 * maxJumpHeight) / (jumpTime * jumpTime);
@@ -40,6 +42,13 @@ public class PlayerController2D : MonoBehaviour
     void Update()
     {
         var input = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
+
+        var scale = _spriteRenderer.transform.localScale;
+        scale.x = _controller._facingDirection >= 0 ? 1 : -1;
+        _spriteRenderer.transform.localScale = scale;
+
+        _animator.SetBool("running", input.x != 0);
+        _animator.SetBool("jumping", _velocity.y != 0);
 
         if (Input.GetButtonDown("Jump") && _controller.collisions.below)
         {
@@ -56,6 +65,8 @@ public class PlayerController2D : MonoBehaviour
             {
                 _velocity.y = _maxJumpVelocity;
             }
+
+            AudioManager.Play(GameAudioClip.Jump);
         }
 
         if (Input.GetButtonUp("Jump"))
@@ -85,7 +96,7 @@ public class PlayerController2D : MonoBehaviour
                 _velocity.y = 0;
             }
         }
-
+        
         PrintDebugInfo(input);
     }
 
