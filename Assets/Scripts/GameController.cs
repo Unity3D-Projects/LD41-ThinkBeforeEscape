@@ -1,36 +1,49 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using XInputDotNetPure;
 
 public class GameController : MonoBehaviour
 {
     public PlayerController2D player;
+    public GameObject PlayerTurnImage;
+    public GameObject EnemiesTurnImage;
 
-    public bool playerTurn;
     public float playerTurnTime = 3.0f;
     public float enemiesTurnTime = 3.0f;
 
     public Text timeText;
 
+    private bool _playerTurn;
     private float _elapsedTime;
 
     void Start()
     {
-        ResetToSpawn();
+        ResetToSpawn(false);
 
-        playerTurn = true;
+        player.enabled = true;
+
+        var enemies = GameObject.FindGameObjectsWithTag(GameTags.Enemy);
+        for (int i = 0; i < enemies.Length; i++)
+        {
+            var enemyController = enemies[i].GetComponent<EnemyController>();
+            enemyController.enabled = false;
+        }
+
+        _playerTurn = true;
     }
 
     void Update()
     {
         _elapsedTime += Time.deltaTime;
 
-        if (playerTurn)
+        if (_playerTurn)
         {
             if (_elapsedTime >= playerTurnTime)
             {
-                //player.enabled = false;
+                player.enabled = false;
 
                 var enemies = GameObject.FindGameObjectsWithTag(GameTags.Enemy);
                 for (int i = 0; i < enemies.Length; i++)
@@ -39,11 +52,16 @@ public class GameController : MonoBehaviour
                     enemyController.enabled = true;
                 }
 
-                playerTurn = false;
+                PlayerTurnImage.SetActive(false);
+                EnemiesTurnImage.SetActive(true);
+
+                _playerTurn = false;
                 _elapsedTime = 0.0f;
+
+                AudioManager.Play(GameAudioClip.ChangeTurn);
             }
 
-            timeText.text = string.Format("{0:F}", playerTurnTime - _elapsedTime);
+            timeText.text = string.Format("TIME: {0:F}", playerTurnTime - _elapsedTime);
         }
         else
         {
@@ -56,18 +74,38 @@ public class GameController : MonoBehaviour
                     enemyController.enabled = false;
                 }
 
-                //player.enabled = true;
+                player.enabled = true;
 
-                playerTurn = true;
+                PlayerTurnImage.SetActive(true);
+                EnemiesTurnImage.SetActive(false);
+
+                _playerTurn = true;
                 _elapsedTime = 0.0f;
+
+                AudioManager.Play(GameAudioClip.ChangeTurn2);
             }
 
-            timeText.text = string.Format("{0:F}", enemiesTurnTime - _elapsedTime);
+            timeText.text = string.Format("TIME: {0:F}", enemiesTurnTime - _elapsedTime);
         }
     }
 
-    public void ResetToSpawn()
+    public void IncreaseTimes(float increaseBy)
     {
+        playerTurnTime += increaseBy;
+        enemiesTurnTime += increaseBy * 0.5f;
+
+        _playerTurn = true;
+        _elapsedTime = 0.0f;
+    }
+
+    public void ResetToSpawn(bool vibrate = true)
+    {
+        if (vibrate)
+        {
+            GamePad.SetVibration(PlayerIndex.One, 1.0f, 1.0f);
+            Invoke("ClearGamePadVibration", 0.2f);
+        }
+
         var playerSpawns = GameObject.FindObjectsOfType<PlayerSpawnController>();
         for (int i = 0; i < playerSpawns.Length; i++)
         {
@@ -77,6 +115,11 @@ public class GameController : MonoBehaviour
                 break;
             }
         }
+    }
+
+    void ClearGamePadVibration()
+    {
+        GamePad.SetVibration(PlayerIndex.One, 0.0f, 0.0f);
     }
 }
 

@@ -133,5 +133,10 @@ public class ChasingGoombaController : EnemyController
             AudioManager.Play(GameAudioClip.Hurt);
         }
     }
+
+    void OnDrawGizmos()
+    {
+        GizmosHelper.GizmosDrawCircle(transform.position, radius);
+    }
 }
 

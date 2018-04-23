@@ -35,6 +35,7 @@ public class PlatformController : RaycastController2D
         _velocity = Vector3.zero;
 
         UpdateRaycastOrigins();
+        CalculateRaySpacing();
 
         CalculatePlatformMovement();
         CalculatePassengersMovement();
@@ -46,6 +47,11 @@ public class PlatformController : RaycastController2D
 
     private void CalculatePlatformMovement()
     {
+        if (_globalWaypoints == null || _globalWaypoints.Length == 0)
+        {
+            return;
+        }
+
         if (Time.time < _nextMoveTime)
         {
             return;

@@ -41,5 +41,8 @@ public enum GameAudioClip
 {
     Jump,
     Hurt,
-    Hurt2
+    Hurt2,
+    Clock,
+    ChangeTurn,
+    ChangeTurn2
 }

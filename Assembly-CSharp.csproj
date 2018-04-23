@@ -56,17 +56,21 @@
      <Compile Include="Assets\Scripts\CameraController2D.cs" />
      <Compile Include="Assets\Scripts\CharacterController2D.cs" />
      <Compile Include="Assets\Scripts\ChasingGoombaController.cs" />
+     <Compile Include="Assets\Scripts\ClockController.cs" />
      <Compile Include="Assets\Scripts\DebugEx.cs" />
      <Compile Include="Assets\Scripts\EnemyController.cs" />
      <Compile Include="Assets\Scripts\FlyingDudeController.cs" />
      <Compile Include="Assets\Scripts\GameController.cs" />
      <Compile Include="Assets\Scripts\GoombaController.cs" />
+     <Compile Include="Assets\Scripts\MenuController.cs" />
      <Compile Include="Assets\Scripts\PlatformController.cs" />
      <Compile Include="Assets\Scripts\PlayerController2D.cs" />
      <Compile Include="Assets\Scripts\PlayerSpawnController.cs" />
      <Compile Include="Assets\Scripts\PoisonController.cs" />
      <Compile Include="Assets\Scripts\RaycastController2D.cs" />
      <Compile Include="Assets\Scripts\SpikeController.cs" />
+     <None Include="Assets\XInputDotNet\Docs.txt" />
+     <None Include="Assets\XInputDotNet\MITLicense.txt" />
  <Reference Include="UnityEngine.UI">
  <HintPath>C:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>
  </Reference>
@@ -99,6 +103,9 @@
  </Reference>
  <Reference Include="UnityEngine.Purchasing">
  <HintPath>C:/Users/Alejandro/AppData/LocalLow/Unity/cache/packages/packages.unity.com/com.unity.purchasing@1.0.1/UnityEngine.Purchasing.dll</HintPath>
+ </Reference>
+ <Reference Include="XInputDotNetPure">
+ <HintPath>D:/Work/(working) LD41/LD41-ThinkBeforeEscape/Assets/XInputDotNet/Plugins/XInputDotNetPure.dll</HintPath>
  </Reference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

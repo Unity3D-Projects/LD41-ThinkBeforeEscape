@@ -11,8 +11,8 @@ PlayerSettings:
   targetDevice: 2
   useOnDemandResources: 0
   accelerometerFrequency: 60
-  companyName: DefaultCompany
-  productName: LD41
+  companyName: Mackno Studio
+  productName: Think before escape
   defaultCursor: {fileID: 0}
   cursorHotspot: {x: 0, y: 0}
   m_SplashScreenBackgroundColor: {r: 0.13725491, g: 0.12156863, b: 0.1254902, a: 1}
@@ -41,8 +41,8 @@ PlayerSettings:
   m_SplashScreenLogos: []
   m_VirtualRealitySplashScreen: {fileID: 0}
   m_HolographicTrackingLossScreen: {fileID: 0}
-  defaultScreenWidth: 1024
-  defaultScreenHeight: 768
+  defaultScreenWidth: 1280
+  defaultScreenHeight: 720
   defaultScreenWidthWeb: 960
   defaultScreenHeightWeb: 600
   m_StereoRenderingPath: 0
@@ -53,7 +53,7 @@ PlayerSettings:
   androidShowActivityIndicatorOnLoading: -1
   tizenShowActivityIndicatorOnLoading: -1
   iosAppInBackgroundBehavior: 0
-  displayResolutionDialog: 1
+  displayResolutionDialog: 2
   iosAllowHTTPDownload: 1
   allowedAutorotateToPortrait: 1
   allowedAutorotateToPortraitUpsideDown: 1
@@ -63,7 +63,7 @@ PlayerSettings:
   use32BitDisplayBuffer: 1
   disableDepthAndStencilBuffers: 0
   androidBlitType: 0
-  defaultIsFullScreen: 1
+  defaultIsFullScreen: 0
   defaultIsNativeResolution: 1
   macRetinaSupport: 1
   runInBackground: 0
@@ -122,11 +122,11 @@ PlayerSettings:
   wiiUAllowScreenCapture: 1
   wiiUControllerCount: 0
   m_SupportedAspectRatios:
-    4:3: 1
-    5:4: 1
-    16:10: 1
+    4:3: 0
+    5:4: 0
+    16:10: 0
     16:9: 1
-    Others: 1
+    Others: 0
   bundleVersion: 1.0
   preloadedAssets: []
   metroInputSource: 0
@@ -151,7 +151,8 @@ PlayerSettings:
   resolutionScalingMode: 0
   androidSupportedAspectRatio: 1
   androidMaxAspectRatio: 2.1
-  applicationIdentifier: {}
+  applicationIdentifier:
+    Standalone: com.MacknoStudio.ThinkBeforeEscape
   buildNumber: {}
   AndroidBundleVersionCode: 1
   AndroidMinSdkVersion: 16

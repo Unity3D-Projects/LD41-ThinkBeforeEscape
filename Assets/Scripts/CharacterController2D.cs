@@ -13,7 +13,7 @@ public class CharacterController2D : RaycastController2D
 
     public void Move(Vector2 deltaMovement, bool standingOnPlatform = false)
     {
-        Move(deltaMovement, Vector2.zero, standingOnPlatform);
+        Move(deltaMovement, new Vector2(_facingDirection, 0.0f), standingOnPlatform);
     }
 
     public void Move(Vector2 deltaMovement, Vector2 playerInput, bool standingOnPlatform = false)
