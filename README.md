@@ -8,4 +8,4 @@ There is no penalty for loosing in the game, other than that the position of the
 
 Can be played with keyboard (arrow keys and space) or with xbox gamepad (recomended).
 
-Create for Ludum Dare 41.
+Create for [Ludum Dare 41](https://ldjam.com/events/ludum-dare/41/think-before-escape). You can play it [here](https://acoto87.itch.io/ld41-think-before-escape).
