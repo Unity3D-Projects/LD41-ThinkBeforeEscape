@@ -1,4 +1,4 @@
-# LD41-ThinkBeforeEscape
+# LD41 - ThinkBeforeEscape
 
 A realtime-turn-based platformer. 
 
@@ -8,4 +8,4 @@ There is no penalty for loosing in the game, other than that the position of the
 
 Can be played with keyboard (arrow keys and space) or with xbox gamepad (recomended).
 
-A game made by [acoto87](https://twitter.com/acoto87) for LD41.
+Create for Ludum Dare 41.
